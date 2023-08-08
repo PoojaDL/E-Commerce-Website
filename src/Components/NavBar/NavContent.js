@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import cartContext from "../../Store/cart-context";
 
 const NavContent = (props) => {
+  const ctx = useContext(cartContext);
   const clicked = () => {
     props.onclick(true);
   };
@@ -20,7 +23,9 @@ const NavContent = (props) => {
           <Nav.Link href="#link">ABOUT</Nav.Link>
         </Nav>
         <Nav className="justify-content-end">
-          <Button onClick={clicked}>Cart</Button>
+          <Button onClick={clicked}>
+            Cart <b color="red">{ctx.items.length}</b>
+          </Button>
         </Nav>
       </Container>
     </Navbar>

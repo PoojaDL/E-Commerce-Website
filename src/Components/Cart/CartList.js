@@ -2,31 +2,31 @@ import { Button } from "react-bootstrap";
 
 const CartList = (props) => {
   return (
-    <tbody>
+    <tr className="my-5">
       <td className="pe-3 justify-content-left">
-        <div>
+        <span>
           <img
-            className="d-inline"
+            className="d-inline mb-3"
             src={`${props.imgUrl}`}
             width="80px"
             height="80px"
             alt="some"
           />
-          <div className="d-inline">{props.title}</div>
-        </div>
+          <span className="d-inline">{props.title}</span>
+        </span>
       </td>
       <td className="me-3">{props.price}</td>
       <td className="me-3">
-        <div
+        <span
           style={{ border: "1px solid black" }}
-          className="d-inline p-2 me-2"
+          className="d-inline p-2 m-2"
         >
           {props.quantity}
-        </div>
+        </span>
 
-        <Button className="btn btn-danger btn-sm">REMOVE</Button>
+        <Button className="btn btn-danger btn-sm my-3">REMOVE</Button>
       </td>
-    </tbody>
+    </tr>
   );
 };
 

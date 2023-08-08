@@ -1,14 +1,20 @@
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 import NavContent from "./Components/NavBar/NavContent";
 import HeadContent from "./Components/Header/HeadContent";
 import BodyItems from "./Components/Body/BodyItems";
 import FooterContent from "./Components/Footer/FooterContent";
 import CartContent from "./Components/Cart/CartContent";
+import CartProvider from "./Store/CartProvider";
 
 function App() {
+  const [cart, setCart] = useState(false);
   const openCart = (open) => {
-    console.log(open);
+    setCart(open);
+  };
+
+  const closeCart = (close) => {
+    setCart(close);
   };
 
   const productsArr = [
@@ -39,13 +45,13 @@ function App() {
   ];
 
   return (
-    <React.Fragment>
+    <CartProvider>
       <NavContent onclick={openCart} />
-      <CartContent />
+      {cart && <CartContent onclick={closeCart} />}
       <HeadContent />
-      <BodyItems items={productsArr} />
+      <BodyItems items={productsArr} onclick={openCart} />
       <FooterContent />
-    </React.Fragment>
+    </CartProvider>
   );
 }
 

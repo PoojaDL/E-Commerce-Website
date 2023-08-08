@@ -1,52 +1,51 @@
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import styles from "./CartContent.module.css";
 import CartList from "./CartList";
+import cartContext from "../../Store/cart-context";
+import { useContext } from "react";
 
-const CartContent = () => {
-  const cartElements = [
-    {
-      title: "Colors",
-      price: 100,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-      quantity: 2,
-    },
-    {
-      title: "Black and white Colors",
-      price: 50,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-      quantity: 3,
-    },
-    {
-      title: "Yellow and Black Colors",
-      price: 70,
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-      quantity: 1,
-    },
-  ];
+const CartContent = (props) => {
+  const ctx = useContext(cartContext);
+  let totalCost = 0;
+  const cartElements = ctx.items;
+  cartElements.map((item) => (totalCost += +item.price));
+  ctx.totalAmount = totalCost;
+
+  const close = () => {
+    props.onclick(false);
+  };
 
   return (
-    <div className={`${styles["cart-body"]}`}>
-      <Container className="text-center py-3">
-        <h2>Cart</h2>
+    <div className={`${styles["cart-body"]}`} align="center">
+      <div align="right">
+        <Button onClick={close} className="mt-3 btn-dark">
+          Close
+        </Button>
+      </div>
+
+      <Container className="pb-3 gx-5">
+        <h2 className="d-inline">Cart</h2>
       </Container>
       <table>
-        <thead>
+        <tr>
           <th className="pe-3">ITEM</th>
           <th className="pe-3">PRICE</th>
           <th className="me-3">QUANTITY</th>
-        </thead>
+        </tr>
         {cartElements.map((item) => (
           <CartList
-            imgUrl={item.imageUrl}
+            key={item.img}
+            imgUrl={item.img}
             title={item.title}
             price={item.price}
             quantity={item.quantity}
           />
         ))}
       </table>
+
+      <div>
+        <h3>Total : {ctx.totalAmount}</h3>
+      </div>
     </div>
   );
 };
