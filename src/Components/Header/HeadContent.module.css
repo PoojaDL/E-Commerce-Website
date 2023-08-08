@@ -1,0 +1,12 @@
+.main {
+  background-color: #777777;
+  padding: 40px;
+  justify-content: center;
+  z-index: -1;
+}
+
+.main h1 {
+  font-size: 100px;
+  color: white;
+  font-family: serif;
+}

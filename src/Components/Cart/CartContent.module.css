@@ -1,0 +1,17 @@
+.cart-body {
+  height: 100%;
+  width: 100%;
+  background-color: aquamarine;
+  z-index: 1;
+  position: fixed;
+  right: 0px;
+  padding: 5% 1%;
+
+}
+
+@media (min-width: 800px) {
+  .cart-body {
+    width: 40%;
+    justify-content: center;
+  }
+}
