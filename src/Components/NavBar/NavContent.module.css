@@ -1,0 +1,11 @@
+.navLink {
+  font-size: large;
+  padding: 1%;
+  text-decoration: none;
+  color: gray;
+  margin: 0% 10px;
+}
+
+.navLink:hover {
+  color: #0d6efd;
+}

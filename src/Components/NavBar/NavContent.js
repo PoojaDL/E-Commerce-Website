@@ -1,6 +1,8 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import cartContext from "../../Store/cart-context";
+import styles from "./NavContent.module.css";
 
 const NavContent = (props) => {
   const ctx = useContext(cartContext);
@@ -18,15 +20,23 @@ const NavContent = (props) => {
     >
       <Container>
         <Nav className="ms-auto me-auto justify-content-center">
-          <Nav.Link href="#home">HOME</Nav.Link>
-          <Nav.Link href="#link">STORE</Nav.Link>
-          <Nav.Link href="#link">ABOUT</Nav.Link>
+          <Link className={styles.navLink} to="/" onClick={styles.onclick}>
+            HOME
+          </Link>
+          <Link className={styles.navLink} href="/About">
+            STORE
+          </Link>
+          <Link className={styles.navLink} to="/About">
+            ABOUT
+          </Link>
         </Nav>
-        <Nav className="justify-content-end">
-          <Button onClick={clicked}>
-            Cart <b color="red">{ctx.items.length}</b>
-          </Button>
-        </Nav>
+        {props.onclick && (
+          <Nav className="justify-content-end">
+            <Button onClick={clicked}>
+              Cart <b color="red">{ctx.items.length}</b>
+            </Button>
+          </Nav>
+        )}
       </Container>
     </Navbar>
   );
