@@ -20,10 +20,10 @@ const NavContent = (props) => {
     >
       <Container>
         <Nav className="ms-auto me-auto justify-content-center">
-          <Link className={styles.navLink} to="/" onClick={styles.onclick}>
+          <Link className={styles.navLink} to="/Home" onClick={styles.onclick}>
             HOME
           </Link>
-          <Link className={styles.navLink} href="/About">
+          <Link className={styles.navLink} to="/">
             STORE
           </Link>
           <Link className={styles.navLink} to="/About">
