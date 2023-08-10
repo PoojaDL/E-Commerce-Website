@@ -1,19 +1,21 @@
 // import { Button } from "react-bootstrap";
+import { useState } from "react";
 import FooterContent from "../Footer/FooterContent";
 import NavContent from "../NavBar/NavContent";
 import DataListTable from "./DataListTable";
 import styles from "./HomePage.module.css";
+import { Button } from "react-bootstrap";
 
 const HomePage = () => {
-  const dataList = [
-    {
-      date: "JUL 16",
-      state: "DETROIT, MI",
-      place: "DTE ENERGY MUSIC THEATRE",
-    },
-
-    { date: "JUL 19", state: "TORONTO,ON", place: "BUDWEISER STAGE" },
-  ];
+  const [isLoad, setLoad] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const loadItems = async () => {
+    setLoad(true);
+    const data = await fetch("https://swapi.dev/api/films/");
+    const res = await data.json();
+    setMovies(res.results);
+    setLoad(false);
+  };
 
   return (
     <div>
@@ -38,21 +40,24 @@ const HomePage = () => {
       <div className="m-5">
         <div>
           <h1>Tours</h1>
+          <Button onClick={loadItems}>Load Movies</Button>
         </div>
         <div>
-          <table className="text-left" align="center">
-            <tr>
+          <table align="center">
+            <tr className="text-left">
               <th className="p-3">Date</th>
-              <th className="p-3">State</th>
-              <th className="p-3">Place</th>
+              <th className="p-3">Title</th>
+              <th className="p-3">Director</th>
               <th className="p-3">Action</th>
             </tr>
-            {dataList.map((item) => (
+            {isLoad && <p>Loading...</p>}
+            {!isLoad && movies.length === 0 && <p>No movies found</p>}
+            {movies.map((item) => (
               <DataListTable
-                key={item.date}
-                date={item.date}
-                state={item.state}
-                place={item.place}
+                key={item.episode_id}
+                date={item.release_date}
+                director={item.director}
+                title={item.title}
               />
             ))}
           </table>
