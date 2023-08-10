@@ -6,15 +6,31 @@ import DataListTable from "./DataListTable";
 import styles from "./HomePage.module.css";
 import { Button } from "react-bootstrap";
 
+let timer;
 const HomePage = () => {
   const [isLoad, setLoad] = useState(false);
+  const [isError, setError] = useState(null);
   const [movies, setMovies] = useState([]);
   const loadItems = async () => {
-    setLoad(true);
-    const data = await fetch("https://swapi.dev/api/films/");
-    const res = await data.json();
-    setMovies(res.results);
+    try {
+      setLoad(true);
+      const data = await fetch("https://swapi.dev/api/films/");
+      if (!data.ok) {
+        timer = setTimeout(() => loadItems(), 5000);
+        throw new Error("Something went wrong ....Retrying");
+      }
+      const res = await data.json();
+      setMovies(res.results);
+    } catch (error) {
+      setError(error.message);
+    }
     setLoad(false);
+  };
+
+  const cancelLoad = () => {
+    document.querySelector(".hide").style.display = "none";
+    document.querySelector(".hideButton").style.display = "none";
+    clearTimeout(timer);
   };
 
   return (
@@ -50,8 +66,16 @@ const HomePage = () => {
               <th className="p-3">Director</th>
               <th className="p-3">Action</th>
             </tr>
-            {isLoad && <p>Loading...</p>}
-            {!isLoad && movies.length === 0 && <p>No movies found</p>}
+            {isLoad && !isError && <p>Loading...</p>}
+            {!isLoad && isError && <p className="hide">{isError}</p>}
+            {!isLoad && isError && (
+              <Button className="hideButton" onClick={cancelLoad}>
+                Cancel Loading
+              </Button>
+            )}
+            {!isLoad && movies.length === 0 && !isError && (
+              <p>No movies found</p>
+            )}
             {movies.map((item) => (
               <DataListTable
                 key={item.episode_id}
