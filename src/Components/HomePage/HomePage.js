@@ -1,5 +1,5 @@
 // import { Button } from "react-bootstrap";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FooterContent from "../Footer/FooterContent";
 import NavContent from "../NavBar/NavContent";
 import DataListTable from "./DataListTable";
@@ -11,7 +11,8 @@ const HomePage = () => {
   const [isLoad, setLoad] = useState(false);
   const [isError, setError] = useState(null);
   const [movies, setMovies] = useState([]);
-  const loadItems = async () => {
+
+  const loadItems = useCallback(async () => {
     try {
       setLoad(true);
       const data = await fetch("https://swapi.dev/api/films/");
@@ -25,7 +26,12 @@ const HomePage = () => {
       setError(error.message);
     }
     setLoad(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    console.log("Component is loafing");
+    loadItems();
+  }, [loadItems]);
 
   const cancelLoad = () => {
     document.querySelector(".hide").style.display = "none";
