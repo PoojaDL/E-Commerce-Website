@@ -29,6 +29,9 @@ const NavContent = (props) => {
           <Link className={styles.navLink} to="/About">
             ABOUT
           </Link>
+          <Link className={styles.navLink} to="/ContactUs">
+            Contact Us
+          </Link>
         </Nav>
         {props.onclick && (
           <Nav className="justify-content-end">
