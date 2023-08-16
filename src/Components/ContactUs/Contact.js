@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-// import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
   const nameInput = useRef();
@@ -67,6 +67,8 @@ const Contact = () => {
           />
         </Form.Group>
         <Button type="submit">Submit</Button>
+        <br />
+        <Link to="/Store">Back to HomePage</Link>
       </Form>
     </div>
   );

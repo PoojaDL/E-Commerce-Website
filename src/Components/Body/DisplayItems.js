@@ -1,6 +1,8 @@
 import { Col, Card, Button } from "react-bootstrap";
 import cartContext from "../../Store/cart-context";
 import { useContext } from "react";
+import classes from "./BodyItems.module.css";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const DisplayItems = (props) => {
   const ctx = useContext(cartContext);
@@ -19,7 +21,14 @@ const DisplayItems = (props) => {
         <h3>{props.title}</h3>
       </div>
       <Card style={{ width: "18rem" }} className="ms-auto me-auto">
-        <Card.Img variant="top" src={props.img} alt="item-img" />
+        <Link to={`Store/product/p${props.index}`}>
+          <Card.Img
+            className={classes.image}
+            variant="top"
+            src={props.img}
+            alt="item-img"
+          />
+        </Link>
         <Card.Body className="">
           <p className="d-inline pe-5 me-5">{`$${props.price}`}</p>
           <Button className="ms-2" variant="primary" onClick={addCartItem}>

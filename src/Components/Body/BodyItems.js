@@ -13,8 +13,9 @@ const BodyItems = (props) => {
           <h1>Items</h1>
         </div>
         <Row className="gy-5 mt-3 gx-0">
-          {props.items.map((item) => (
+          {props.items.map((item, index) => (
             <DisplayItems
+              index={index}
               key={item.imageUrl}
               img={item.imageUrl}
               title={item.title}

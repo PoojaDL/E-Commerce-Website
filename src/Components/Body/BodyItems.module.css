@@ -3,3 +3,7 @@
   height: 300px;
   background-color: red;
 }
+
+.image:hover {
+  transform: scale(1.1);
+}

@@ -6,6 +6,9 @@
   margin: 0% 10px;
 }
 
-.navLink:hover {
-  color: #0d6efd;
+.navLink:hover,
+a.active {
+  color: lightblue;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid lightblue;
 }
