@@ -26,34 +26,42 @@ const NavContent = (props) => {
     >
       <Container>
         <Nav className="ms-auto me-auto justify-content-center">
-          <NavLink
-            className={styles.navLink}
-            to="/Home"
-            activeClassName={styles.active}
-          >
-            HOME
-          </NavLink>
-          <NavLink
-            className={styles.navLink}
-            activeClassName={styles.active}
-            to="/Store"
-          >
-            STORE
-          </NavLink>
-          <NavLink
-            className={styles.navLink}
-            activeClassName={styles.active}
-            to="/About"
-          >
-            ABOUT
-          </NavLink>
-          <NavLink
-            className={styles.navLink}
-            activeClassName={styles.active}
-            to="/ContactUs"
-          >
-            CONTACTUS
-          </NavLink>
+          {authCtx.isLoggedIn && (
+            <NavLink
+              className={styles.navLink}
+              to="/Home"
+              activeClassName={styles.active}
+            >
+              HOME
+            </NavLink>
+          )}
+          {authCtx.isLoggedIn && (
+            <NavLink
+              className={styles.navLink}
+              activeClassName={styles.active}
+              to="/Store"
+            >
+              STORE
+            </NavLink>
+          )}
+          {authCtx.isLoggedIn && (
+            <NavLink
+              className={styles.navLink}
+              activeClassName={styles.active}
+              to="/About"
+            >
+              ABOUT
+            </NavLink>
+          )}
+          {authCtx.isLoggedIn && (
+            <NavLink
+              className={styles.navLink}
+              activeClassName={styles.active}
+              to="/ContactUs"
+            >
+              CONTACTUS
+            </NavLink>
+          )}
           <NavLink
             className={styles.navLink}
             activeClassName={styles.active}

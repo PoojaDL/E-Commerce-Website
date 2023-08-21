@@ -7,6 +7,8 @@ import Contact from "./Components/ContactUs/Contact";
 import ProductDetails from "./Components/Body/ProductDetails";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Login from "./Components/LoginPage/Login";
+import { useContext } from "react";
+import AuthContext from "./Store/auth-context";
 
 // const router = createBrowserRouter([
 //   { path: "/", element: <Storepage /> },
@@ -16,6 +18,7 @@ import Login from "./Components/LoginPage/Login";
 // ]);
 
 function App() {
+  const authCtx = useContext(AuthContext);
   return (
     <div>
       <main>
@@ -25,20 +28,33 @@ function App() {
         <Route path="/Login" exact>
           <Login />
         </Route>
-        <Route path="/Store" exact>
-          <Storepage />
-        </Route>
-        <Route path="/About">
-          <About />
-        </Route>
-        <Route path="/Home">
-          <HomePage />
-        </Route>
-        <Route path="/ContactUs">
-          <Contact />
-        </Route>
-        <Route path="/Store/product/:id">
-          <ProductDetails />
+        {authCtx.isLoggedIn && (
+          <Route path="/Store" exact>
+            <Storepage />
+          </Route>
+        )}
+        {authCtx.isLoggedIn && (
+          <Route path="/About">
+            <About />
+          </Route>
+        )}
+        {authCtx.isLoggedIn && (
+          <Route path="/Home">
+            <HomePage />
+          </Route>
+        )}
+        {authCtx.isLoggedIn && (
+          <Route path="/ContactUs">
+            <Contact />
+          </Route>
+        )}
+        {authCtx.isLoggedIn && (
+          <Route path="/Store/product/:id">
+            <ProductDetails />
+          </Route>
+        )}
+        <Route path="*">
+          <Redirect to="/" />
         </Route>
       </main>
     </div>
