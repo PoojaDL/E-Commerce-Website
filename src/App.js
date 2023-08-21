@@ -6,6 +6,7 @@ import Storepage from "./Components/StorePage/Storepage";
 import Contact from "./Components/ContactUs/Contact";
 import ProductDetails from "./Components/Body/ProductDetails";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import Login from "./Components/LoginPage/Login";
 
 // const router = createBrowserRouter([
 //   { path: "/", element: <Storepage /> },
@@ -19,7 +20,10 @@ function App() {
     <div>
       <main>
         <Route path="/" exact>
-          <Redirect to="/Store"></Redirect>
+          <Redirect to="/Login"></Redirect>
+        </Route>
+        <Route path="/Login" exact>
+          <Login />
         </Route>
         <Route path="/Store" exact>
           <Storepage />

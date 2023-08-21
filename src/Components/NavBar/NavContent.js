@@ -3,11 +3,17 @@ import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import cartContext from "../../Store/cart-context";
 import styles from "./NavContent.module.css";
+import AuthContext from "../../Store/auth-context";
 
 const NavContent = (props) => {
+  const authCtx = useContext(AuthContext);
   const ctx = useContext(cartContext);
   const clicked = () => {
     props.onclick(true);
+  };
+
+  const logoutHandler = () => {
+    authCtx.logout();
   };
 
   return (
@@ -47,6 +53,14 @@ const NavContent = (props) => {
             to="/ContactUs"
           >
             CONTACTUS
+          </NavLink>
+          <NavLink
+            className={styles.navLink}
+            activeClassName={styles.active}
+            to="/Login"
+            onClick={logoutHandler}
+          >
+            LOGOUT
           </NavLink>
         </Nav>
         {props.onclick && (
