@@ -47,12 +47,21 @@ const Storepage = () => {
     },
   ];
 
+  const [count, setCount] = useState(false);
+  const countChange = () => {
+    setCount((prev) => !prev);
+  };
+
+  const countItems = (t) => {
+    setCount((prev) => !prev);
+  };
+
   return (
     <CartProvider>
-      <NavContent onclick={openCart} />
-      {cart && <CartContent onclick={closeCart} />}
+      <NavContent count={count} onclick={openCart} />
+      {cart && <CartContent onChange={countItems} onclick={closeCart} />}
       <HeadContent />
-      <BodyItems items={productsArr} onclick={openCart} />
+      <BodyItems add={countChange} items={productsArr} onclick={openCart} />
       <FooterContent />
     </CartProvider>
   );

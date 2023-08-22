@@ -6,6 +6,10 @@ const BodyItems = (props) => {
     props.onclick(true);
   };
 
+  const itemAdded = () => {
+    props.add();
+  };
+
   return (
     <div>
       <Container>
@@ -15,6 +19,7 @@ const BodyItems = (props) => {
         <Row className="gy-5 mt-3 gx-0">
           {props.items.map((item, index) => (
             <DisplayItems
+              add={itemAdded}
               index={index}
               key={item.imageUrl}
               img={item.imageUrl}

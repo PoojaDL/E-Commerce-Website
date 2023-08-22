@@ -8,7 +8,7 @@ import ProductDetails from "./Components/Body/ProductDetails";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Login from "./Components/LoginPage/Login";
 import { useContext } from "react";
-import AuthContext from "./Store/auth-context";
+import AuthContext from "./Store/auth-content";
 
 // const router = createBrowserRouter([
 //   { path: "/", element: <Storepage /> },
@@ -23,9 +23,14 @@ function App() {
     <div>
       <main>
         <Route path="/" exact>
-          <Redirect to="/Login"></Redirect>
+          {!authCtx.isLoggedIn ? (
+            <Redirect to="/Login"></Redirect>
+          ) : (
+            <Redirect to="/Store"></Redirect>
+          )}
         </Route>
-        <Route path="/Login" exact>
+
+        <Route path="/Login">
           <Login />
         </Route>
         {authCtx.isLoggedIn && (

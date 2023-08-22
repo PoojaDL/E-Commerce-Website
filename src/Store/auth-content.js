@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 
 const AuthContext = React.createContext({
-  token: "",
+  token: {},
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
@@ -14,7 +14,7 @@ export const AuthProvider = (props) => {
   const userIsLoggedIn = !!token;
 
   const loginHandler = (token) => {
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", JSON.stringify(token));
     setToken(token);
     // setTimeout(() => {
     //   logOutHandler();

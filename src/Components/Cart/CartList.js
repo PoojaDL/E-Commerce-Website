@@ -1,6 +1,10 @@
 import { Button } from "react-bootstrap";
 
 const CartList = (props) => {
+  const removeItem = () => {
+    props.remItem(props.item._id);
+  };
+
   return (
     <tr className="my-5">
       <td className="pe-3 justify-content-left">
@@ -24,7 +28,9 @@ const CartList = (props) => {
           {props.quantity}
         </span>
 
-        <Button className="btn btn-danger btn-sm my-3">REMOVE</Button>
+        <Button className="btn btn-danger btn-sm my-3" onClick={removeItem}>
+          REMOVE
+        </Button>
       </td>
     </tr>
   );

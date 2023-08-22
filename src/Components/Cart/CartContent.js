@@ -1,18 +1,55 @@
 import { Button, Container } from "react-bootstrap";
 import styles from "./CartContent.module.css";
 import CartList from "./CartList";
-import cartContext from "../../Store/cart-context";
-import { useContext } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../../Store/auth-content";
 
 const CartContent = (props) => {
-  const ctx = useContext(cartContext);
+  const [cartElements, setCart] = useState([]);
+  // const [call, setCall] = useState(false);
+  const authCtx = useContext(AuthContext);
+  let token;
+  if (authCtx.isLoggedIn) {
+    token = authCtx.token;
+    if (typeof token === "string") {
+      token = JSON.parse(authCtx.token);
+    }
+  }
+  const email = token.email.replace(/[^a-z0-9]/gi, "");
   let totalCost = 0;
-  const cartElements = ctx.items;
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}`
+      )
+      .then((res) => {
+        setCart(res.data);
+      })
+      .catch((error) => console.log(error.message));
+  }, [email, props]);
   cartElements.map((item) => (totalCost += +item.price));
-  ctx.totalAmount = totalCost;
 
   const close = () => {
     props.onclick(false);
+  };
+
+  const removeItem = (key) => {
+    axios
+      .delete(
+        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}/${key}`
+      )
+      .then((res) => {
+        if (res.statusText === "OK") {
+          let leftItems = cartElements.filter((item) => item._id !== key);
+          setCart(leftItems);
+          props.onChange();
+        }
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   return (
@@ -34,7 +71,9 @@ const CartContent = (props) => {
         </tr>
         {cartElements.map((item) => (
           <CartList
-            key={item.img}
+            remItem={removeItem}
+            item={item}
+            key={item._id}
             imgUrl={item.img}
             title={item.title}
             price={item.price}
@@ -43,8 +82,8 @@ const CartContent = (props) => {
         ))}
       </table>
 
-      <div>
-        <h3>Total : {ctx.totalAmount}</h3>
+      <div className="pb-5">
+        <h3>Total : {totalCost}</h3>
       </div>
     </div>
   );

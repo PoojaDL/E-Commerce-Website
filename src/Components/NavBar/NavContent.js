@@ -1,13 +1,40 @@
-import { useContext } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import cartContext from "../../Store/cart-context";
 import styles from "./NavContent.module.css";
-import AuthContext from "../../Store/auth-context";
+import axios from "axios";
+import AuthContext from "../../Store/auth-content";
 
 const NavContent = (props) => {
   const authCtx = useContext(AuthContext);
-  const ctx = useContext(cartContext);
+  let token;
+  if (authCtx.isLoggedIn) {
+    token = authCtx.token;
+    if (typeof token === "string") {
+      token = JSON.parse(authCtx.token);
+    }
+  }
+  const email = token.email.replace(/[^a-z0-9]/gi, "");
+
+  const [count, setCount] = useState(null);
+  let add = props.count;
+  const countChange = useCallback(() => {
+    axios
+      .get(
+        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}`
+      )
+      .then((res) => {
+        setCount(res.data.length);
+        // eslint-disable-next-line
+        add;
+      })
+      .catch((error) => alert(error.message));
+  }, [email, add]);
+
+  useEffect(() => {
+    countChange();
+  }, [countChange]);
+
   const clicked = () => {
     props.onclick(true);
   };
@@ -74,7 +101,7 @@ const NavContent = (props) => {
         {props.onclick && (
           <Nav className="justify-content-end">
             <Button onClick={clicked}>
-              Cart <b color="red">{ctx.items.length}</b>
+              Cart <b color="red">{count}</b>
             </Button>
           </Nav>
         )}

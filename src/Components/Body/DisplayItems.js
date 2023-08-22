@@ -1,18 +1,35 @@
 import { Col, Card, Button } from "react-bootstrap";
-import cartContext from "../../Store/cart-context";
 import { useContext } from "react";
 import classes from "./BodyItems.module.css";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import AuthContext from "../../Store/auth-content";
+import axios from "axios";
 
 const DisplayItems = (props) => {
-  const ctx = useContext(cartContext);
+  const authCtx = useContext(AuthContext);
+  let token;
+  if (authCtx.isLoggedIn) {
+    token = authCtx.token;
+    if (typeof token === "string") {
+      token = JSON.parse(authCtx.token);
+    }
+  }
+  const email = token.email.replace(/[^a-z0-9]/gi, "");
+
+  const list = {
+    title: props.title,
+    img: props.img,
+    price: props.price,
+    quantity: 1,
+  };
   const addCartItem = () => {
-    ctx.addItem({
-      title: props.title,
-      img: props.img,
-      price: props.price,
-      quantity: 1,
-    });
+    axios
+      .post(
+        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}`,
+        list
+      )
+      .then((res) => props.add())
+      .catch((error) => console.log(error.message));
   };
 
   return (
