@@ -1,16 +1,28 @@
 .cart-body {
-  height: 90%;
+  height: 60%;
   width: 100%;
-  background-color: aquamarine;
+  background-color: #cccc99;
   z-index: 1;
+  margin: auto;
   position: fixed;
   right: 0px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 991px) {
   .cart-body {
     width: 40%;
+    height: 95%;
+    overflow-y: scroll;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 765px) and (max-width: 991px) {
+  .cart-body {
+    width: 50%;
+    height: 75%;
+    overflow-y: scroll;
     justify-content: center;
   }
 }

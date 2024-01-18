@@ -4,7 +4,7 @@ const HeadContent = () => {
   return (
     <div className={`${styles.main} text-center`}>
       <h1>
-        <b>The Generic</b>
+        <b>Mart In Cart</b>
       </h1>
     </div>
   );

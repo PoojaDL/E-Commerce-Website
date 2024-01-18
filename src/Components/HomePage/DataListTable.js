@@ -2,12 +2,12 @@ import { Button } from "react-bootstrap";
 
 const DataListTable = (props) => {
   return (
-    <tr>
-      <td className="p-3">{props.date}</td>
-      <td className="p-3">{props.title}</td>
-      <td className="p-3">{props.director}</td>
+    <tr className="g-5">
+      <td className="pe-3">{props.date}</td>
+      <td className="pe-3">{props.title}</td>
+      <td className="pe-3">{props.director}</td>
       <td>
-        <Button>Buy Tickets</Button>
+        <Button className="btn-secondary">Buy Tickets</Button>
       </td>
     </tr>
   );

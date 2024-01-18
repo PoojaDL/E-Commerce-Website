@@ -1,0 +1,16 @@
+.main-div {
+  background: #cccc99;
+  border-radius: 1rem;
+  margin-top: 5rem;
+  margin: 3rem;
+  width: 95%;
+}
+
+@media (min-width: 700px) {
+  .main-div {
+    padding: auto;
+    width: 60%;
+    margin-top: 5rem;
+    margin: 1rem;
+  }
+}

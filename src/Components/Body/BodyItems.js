@@ -11,12 +11,12 @@ const BodyItems = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ background: "#eeeedd", paddingBottom: "5rem" }}>
       <Container>
-        <div className="text-center m-4">
+        <div className="text-center m-0 pt-3">
           <h1>Items</h1>
         </div>
-        <Row className="gy-5 mt-3 gx-0">
+        <Row className="gy-4 mt-2 gx-0">
           {props.items.map((item, index) => (
             <DisplayItems
               add={itemAdded}
@@ -31,7 +31,7 @@ const BodyItems = (props) => {
         <div align="center" className="my-5">
           <Button
             onClick={openCart}
-            className="ms-2 btn-secondary"
+            className="ms-2 btn-secondary btn-lg"
             variant="primary"
           >
             See The Cart

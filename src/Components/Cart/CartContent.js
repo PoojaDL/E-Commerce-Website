@@ -2,12 +2,11 @@ import { Button, Container } from "react-bootstrap";
 import styles from "./CartContent.module.css";
 import CartList from "./CartList";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import AuthContext from "../../Store/auth-content";
 
 const CartContent = (props) => {
   const [cartElements, setCart] = useState([]);
-  // const [call, setCall] = useState(false);
   const authCtx = useContext(AuthContext);
   let token;
   if (authCtx.isLoggedIn) {
@@ -16,18 +15,34 @@ const CartContent = (props) => {
       token = JSON.parse(authCtx.token);
     }
   }
+
   const email = token.email.replace(/[^a-z0-9]/gi, "");
   let totalCost = 0;
 
   useEffect(() => {
     axios
       .get(
-        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}`
+        `https://martincartitems-default-rtdb.firebaseio.com/UserList${email}.json`
       )
       .then((res) => {
-        setCart(res.data);
+        // console.log(res);
+        const items = [];
+        for (const key in res.data) {
+          const fetchedData = {
+            key: key,
+            img: res.data[key].img,
+            price: res.data[key].price,
+            quantity: res.data[key].quantity,
+            title: res.data[key].title,
+          };
+          items.unshift(fetchedData);
+        }
+        setCart(items);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        alert("there is a problem");
+        console.log(error);
+      });
   }, [email, props]);
   cartElements.map((item) => (totalCost += +item.price));
 
@@ -38,11 +53,12 @@ const CartContent = (props) => {
   const removeItem = (key) => {
     axios
       .delete(
-        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}/${key}`
+        `https://martincartitems-default-rtdb.firebaseio.com/UserList${email}/${key}.json`
       )
       .then((res) => {
+        // console.log(res);
         if (res.statusText === "OK") {
-          let leftItems = cartElements.filter((item) => item._id !== key);
+          let leftItems = cartElements.filter((item) => item.key !== key);
           setCart(leftItems);
           props.onChange();
         }
@@ -53,39 +69,42 @@ const CartContent = (props) => {
   };
 
   return (
-    <div className={`${styles["cart-body"]}`} align="center">
-      <div align="right">
-        <Button onClick={close} className="mt-3 btn-dark">
-          Close
-        </Button>
-      </div>
+    <Fragment>
+      <div className={styles["cart-body"]} align="center">
+        <div align="right">
+          <Button onClick={close} className="mt-3 me-3 btn-dark">
+            Close
+          </Button>
+        </div>
 
-      <Container className="pb-3 gx-5">
-        <h2 className="d-inline">Cart</h2>
-      </Container>
-      <table>
-        <tr>
-          <th className="pe-3">ITEM</th>
-          <th className="pe-3">PRICE</th>
-          <th className="me-3">QUANTITY</th>
-        </tr>
-        {cartElements.map((item) => (
-          <CartList
-            remItem={removeItem}
-            item={item}
-            key={item._id}
-            imgUrl={item.img}
-            title={item.title}
-            price={item.price}
-            quantity={item.quantity}
-          />
-        ))}
-      </table>
+        <Container className="pb-3 gx-5">
+          <h2 className="d-inline">Cart</h2>
+        </Container>
+        <table className="m-auto">
+          <tr align="center">
+            <th>ITEM</th>
+            <th className="pe-3">TITLE</th>
+            <th className="pe-3">PRICE</th>
+            <th>QUANTITY</th>
+          </tr>
+          {cartElements.map((item) => (
+            <CartList
+              remItem={removeItem}
+              item={item}
+              key={item.key}
+              imgUrl={item.img}
+              title={item.title}
+              price={item.price}
+              quantity={item.quantity}
+            />
+          ))}
+        </table>
 
-      <div className="pb-5">
-        <h3>Total : {totalCost}</h3>
+        <div className="pb-5">
+          <h3>Total : {totalCost}</h3>
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 

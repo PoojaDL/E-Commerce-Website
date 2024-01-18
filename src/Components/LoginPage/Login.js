@@ -5,20 +5,32 @@ import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const authCtx = useContext(AuthContext);
+  const [isLogin, setIsLogin] = useState(true);
+  // const [error, setError] = useState(false);
   const [load, setLoad] = useState(false);
   const history = useHistory();
 
   const emailInput = useRef();
   const passwordInput = useRef();
 
+  const switchAuthModeHandler = () => {
+    setIsLogin((prevState) => !prevState);
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
-    const emailEntered = emailInput.current.value;
-    const passwordEntered = passwordInput.current.value;
+    let emailEntered = emailInput.current.value;
+    let passwordEntered = passwordInput.current.value;
 
     setLoad(true);
-    let url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC8wHsJTe8rHFeXPPHA5u0R9NWkWsuix3s";
+    let url;
+    if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyC8wHsJTe8rHFeXPPHA5u0R9NWkWsuix3s";
+    } else {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC8wHsJTe8rHFeXPPHA5u0R9NWkWsuix3s";
+    }
 
     fetch(url, {
       method: "POST",
@@ -44,14 +56,22 @@ const Login = () => {
       })
       .then((data) => {
         authCtx.login(data);
-        history.replace("/Store");
+        if (isLogin) {
+          history.replace("./");
+        } else {
+          alert("Account created successfully..!");
+          emailInput.current.value = "";
+          passwordInput.current.value = "";
+          setIsLogin((prevState) => !prevState);
+          history.replace("./");
+        }
       })
       .catch((error) => alert(error));
   };
 
   return (
     <section className={classes.auth}>
-      <h1>Login</h1>
+      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor="email">Your Email</label>
@@ -65,8 +85,18 @@ const Login = () => {
           {load ? (
             <p style={{ color: "white" }}>Sending request...</p>
           ) : (
-            <button>Login</button>
+            <button>{isLogin ? "Login" : "Create account"}</button>
           )}
+
+          <button
+            type="button"
+            className={classes.toggle}
+            onClick={switchAuthModeHandler}
+          >
+            <p style={{ color: "white" }}>
+              {isLogin ? "Create new account" : "Login with existing account"}
+            </p>
+          </button>
         </div>
       </form>
     </section>

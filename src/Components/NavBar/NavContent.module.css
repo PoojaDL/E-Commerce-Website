@@ -8,7 +8,12 @@
 
 .navLink:hover,
 a.active {
-  color: lightblue;
+  color: #eeeedd;
   padding-bottom: 0.25rem;
-  border-bottom: 2px solid lightblue;
+  border-bottom: 2px solid #eeeedd;
+}
+
+.cartBtn {
+  position: absolute;
+  right: 1rem;
 }

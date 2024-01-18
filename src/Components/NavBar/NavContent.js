@@ -21,10 +21,16 @@ const NavContent = (props) => {
   const countChange = useCallback(() => {
     axios
       .get(
-        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}`
+        `https://martincartitems-default-rtdb.firebaseio.com/UserList${email}.json`
       )
       .then((res) => {
-        setCount(res.data.length);
+        let count = 0;
+        for (const key in res.data) {
+          count++;
+          // eslint-disable-next-line
+          key;
+        }
+        setCount(count);
         // eslint-disable-next-line
         add;
       })
@@ -99,8 +105,19 @@ const NavContent = (props) => {
           </NavLink>
         </Nav>
         {props.onclick && (
-          <Nav className="justify-content-end">
-            <Button onClick={clicked}>
+          <Nav className={`justify-content-end ${styles.cartBtn}`}>
+            <Button
+              onClick={clicked}
+              style={{ background: "#666633" }}
+              className="btn-outline-light"
+            >
+              <img
+                src={"https://cdn-icons-png.flaticon.com/512/1656/1656507.png"}
+                alt="cart"
+                width="30px"
+                height="30px"
+                className="m-0.5"
+              />
               Cart <b color="red">{count}</b>
             </Button>
           </Nav>

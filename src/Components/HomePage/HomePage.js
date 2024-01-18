@@ -1,5 +1,5 @@
 // import { Button } from "react-bootstrap";
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import FooterContent from "../Footer/FooterContent";
 import NavContent from "../NavBar/NavContent";
 import DataListTable from "./DataListTable";
@@ -29,7 +29,6 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Component is loafing");
     loadItems();
   }, [loadItems]);
 
@@ -40,13 +39,13 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <Fragment>
       <NavContent />
-      <div className={`${styles.main} text-center`} align="center">
+      <div className={`${styles.main} p-2`} align="center">
         <h1>
-          <b>The Generic</b>
+          <b>Mart In Cart</b>
         </h1>
-        <div className={styles.box}>
+        <div className={styles.box} align="center">
           <h4>Get Out Latest Album</h4>
         </div>
         {/* <button className={styles.buttonImage}> */}
@@ -59,26 +58,30 @@ const HomePage = () => {
         />
       </div>
 
-      <div className="m-5">
-        <div>
-          <h1>Tours</h1>
-          <Button onClick={loadItems}>Load Movies</Button>
+      <div
+        style={{ background: "#eeeedd" }}
+        className="p-3 pb-5"
+        align="center"
+      >
+        <div className="display-3 p-2">
+          <h1>Movies</h1>
         </div>
-        <div>
+        {isLoad && !isError && <p>Loading...</p>}
+        {!isLoad && isError && <p className="hide">{isError}</p>}
+        {!isLoad && isError && (
+          <Button className="hideButton" onClick={cancelLoad}>
+            Cancel Loading
+          </Button>
+        )}
+        <div className="p-auto m-auto pb-5 mb-5" style={{ overflow: "scroll" }}>
           <table align="center">
-            <tr className="text-left">
-              <th className="p-3">Date</th>
-              <th className="p-3">Title</th>
-              <th className="p-3">Director</th>
-              <th className="p-3">Action</th>
+            <tr className="text-left g-5 display-7">
+              <th className="pe-3">Date</th>
+              <th className="pe-3">Title</th>
+              <th className="pe-3">Director</th>
+              <th>Action</th>
             </tr>
-            {isLoad && !isError && <p>Loading...</p>}
-            {!isLoad && isError && <p className="hide">{isError}</p>}
-            {!isLoad && isError && (
-              <Button className="hideButton" onClick={cancelLoad}>
-                Cancel Loading
-              </Button>
-            )}
+
             {!isLoad && movies.length === 0 && !isError && (
               <p>No movies found</p>
             )}
@@ -94,7 +97,7 @@ const HomePage = () => {
         </div>
       </div>
       <FooterContent />
-    </div>
+    </Fragment>
   );
 };
 

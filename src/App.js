@@ -1,67 +1,66 @@
 import "./App.css";
-import About from "./Components/About/About";
-import { Route } from "react-router-dom";
-import HomePage from "./Components/HomePage/HomePage";
-import Storepage from "./Components/StorePage/Storepage";
-import Contact from "./Components/ContactUs/Contact";
-import ProductDetails from "./Components/Body/ProductDetails";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-import Login from "./Components/LoginPage/Login";
-import { useContext } from "react";
+import { Route, Redirect } from "react-router-dom";
+import React, { Suspense, useContext } from "react";
 import AuthContext from "./Store/auth-content";
 
-// const router = createBrowserRouter([
-//   { path: "/", element: <Storepage /> },
-//   { path: "/About", element: <About /> },
-//   { path: "/Home", element: <HomePage /> },
-//   { path: "/ContactUs", element: <Contact /> },
-// ]);
+const HomePage = React.lazy(() => import("./Components/HomePage/HomePage"));
+const Contact = React.lazy(() => import("./Components/ContactUs/Contact"));
+const Storepage = React.lazy(() => import("./Components/StorePage/Storepage"));
+const ProductDetails = React.lazy(() =>
+  import("./Components/Body/ProductDetails")
+);
+const Login = React.lazy(() => import("./Components/LoginPage/Login"));
+const About = React.lazy(() => import("./Components/About/About"));
 
 function App() {
   const authCtx = useContext(AuthContext);
   return (
     <div>
-      <main>
-        <Route path="/" exact>
-          {!authCtx.isLoggedIn ? (
-            <Redirect to="/Login"></Redirect>
-          ) : (
-            <Redirect to="/Store"></Redirect>
-          )}
-        </Route>
+      <Suspense fallback={<p>Loading...</p>}>
+        <main>
+          <Route path="/" exact>
+            {!authCtx.isLoggedIn ? (
+              <Redirect to="/Login" />
+            ) : (
+              <Redirect to="/Store" />
+            )}
+          </Route>
 
-        <Route path="/Login">
-          <Login />
-        </Route>
-        {authCtx.isLoggedIn && (
-          <Route path="/Store" exact>
-            <Storepage />
+          <Route path="/Login">
+            <Login />
           </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/About">
-            <About />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/Home">
-            <HomePage />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/ContactUs">
-            <Contact />
-          </Route>
-        )}
-        {authCtx.isLoggedIn && (
-          <Route path="/Store/product/:id">
-            <ProductDetails />
-          </Route>
-        )}
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      </main>
+          {authCtx.isLoggedIn && (
+            <Route path="/Store" exact>
+              <Storepage />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="/About">
+              <About />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="/Home">
+              <HomePage />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="/ContactUs">
+              <Contact />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="/Store/product/:id">
+              <ProductDetails />
+            </Route>
+          )}
+          {!authCtx.isLoggedIn && (
+            <Route path="*">
+              <Redirect to="/Login" />
+            </Route>
+          )}
+        </main>
+      </Suspense>
     </div>
   );
 }

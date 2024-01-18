@@ -1,6 +1,6 @@
 .main {
   background-color: #777777;
-  padding: 40px;
+  padding: auto;
   justify-content: center;
   z-index: -1;
   text-align: center;
@@ -17,8 +17,7 @@
   width: fit-content;
   padding: 1%;
   color: white;
-  margin-top: 3%;
-  margin-left: 40%;
+  margin: auto;
 }
 
 .buttonImage {

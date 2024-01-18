@@ -22,18 +22,21 @@ const DisplayItems = (props) => {
     price: props.price,
     quantity: 1,
   };
+
   const addCartItem = () => {
     axios
       .post(
-        `https://crudcrud.com/api/080149f7f02649bf861b3b8e25634122/UserList${email}`,
+        `https://martincartitems-default-rtdb.firebaseio.com/UserList${email}.json`,
         list
       )
-      .then((res) => props.add())
+      .then(() => {
+        props.add();
+      })
       .catch((error) => console.log(error.message));
   };
 
   return (
-    <Col md={6} className="d-inline">
+    <Col md={6} className="d-inline  mt-5">
       <div className="text-center">
         <h3>{props.title}</h3>
       </div>
@@ -46,9 +49,13 @@ const DisplayItems = (props) => {
             alt="item-img"
           />
         </Link>
-        <Card.Body className="">
+        <Card.Body>
           <p className="d-inline pe-5 me-5">{`$${props.price}`}</p>
-          <Button className="ms-2" variant="primary" onClick={addCartItem}>
+          <Button
+            className="ms-2 btn-secondary"
+            variant="primary"
+            onClick={addCartItem}
+          >
             Add To Cart
           </Button>
         </Card.Body>

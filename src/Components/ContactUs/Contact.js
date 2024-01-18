@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import styles from "./Contact.module.css";
 
 const Contact = () => {
   const nameInput = useRef();
@@ -32,20 +33,23 @@ const Contact = () => {
     console.log(result.status);
   };
   return (
-    <div
-      style={{
-        margin: "2% 20%",
-        padding: "2%",
-        background: "lightblue",
-        borderRadius: "10%",
-      }}
-    >
-      <h1>Contact Us</h1>
+    <div className={`${styles["main-div"]} mt-3 m-auto p-auto`}>
+      <Link to="/Store">
+        <img
+          src={"https://cdn-icons-png.flaticon.com/512/93/93634.png"}
+          alt="back-button"
+          width="50px"
+          className="m-2"
+        />
+      </Link>
+      <h1 className="display-3">
+        <b>Contact Us</b>
+      </h1>
       <div align="center">
         <p>Let's get connected</p>
       </div>
       <hr />
-      <Form bg="dark" className="m-5 p-2" onSubmit={onFormSubmit}>
+      <Form bg="dark" className="p-3" onSubmit={onFormSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Name</Form.Label>
           <Form.Control ref={nameInput} type="text" placeholder="name" />
@@ -66,9 +70,10 @@ const Contact = () => {
             placeholder="enter mobile number"
           />
         </Form.Group>
-        <Button type="submit">Submit</Button>
+        <Button className="btn-lg btn-secondary" type="submit">
+          Submit
+        </Button>
         <br />
-        <Link to="/Store">Back to HomePage</Link>
       </Form>
     </div>
   );

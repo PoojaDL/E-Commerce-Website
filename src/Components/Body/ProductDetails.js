@@ -26,21 +26,31 @@ const ProductDetails = () => {
 
   return (
     <div className={classes["main-div"]}>
-      <h1>Product Page</h1>
+      <Link to="/Store">
+        <img
+          src={"https://cdn-icons-png.flaticon.com/512/93/93634.png"}
+          alt="back-button"
+          width="50px"
+          className="mx-3"
+        />
+      </Link>
+      <div className="mx-auto px-auto">
+        <h1>Product Details</h1>
+      </div>
       <section className={classes["sec-div"]}>
         <Row>
-          <Col lg={6}>
+          <Col md={6}>
             <img
               className={classes.image}
               src={dataFetched.imageUrl}
               alt="fetched"
             />
-            <Button className="m-1">Add to Cart</Button>
+            <Button className="m-1 btn-secondary">Add to Cart</Button>
             <Link to="/Store">
               <Button className="m-1 btn-danger">Cancel</Button>
             </Link>
           </Col>
-          <Col lg={5} className="mt-3">
+          <Col lg={5} className="mt-1">
             <h4>{dataFetched.title}</h4>
             <h2>{`₹${dataFetched.price}`}</h2>
             <ul>
